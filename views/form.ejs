@@ -1,0 +1,108 @@
+<form method="post" action="/insertData" enctype="multipart/form-data">
+    <input type="hidden" name="editid" value="<%= single.id %>"/>
+    <table border="1" style="margin: auto; background-color: black; color: aliceblue;">
+        <tr>
+            <td>Movie-Name</td>
+            <td><input type="text" value="<%= single.name %>" name="name"></td>
+        </tr>
+        <tr>
+            <td>Director</td>
+            <td><input type="text"  value="<%= single.director %>" name="director"></td>
+        </tr>
+        <tr>
+            <td>Writer</td>
+            <td><input type="text"  value="<%= single.writer %>" name="writer"></td>
+        </tr>
+        <tr>
+            <td>Actors</td>
+            <td><input type="text"  value="<%= single.actors %>" name="actors"></td>
+        </tr>
+        <tr>
+            <td>Language</td>
+            <td>
+                <input type="radio" <% if(single.language == "hindi") { %> checked <% } %> value="hindi" name="language">Hindi
+                <input type="radio" <% if(single.language == "english") { %> checked <% } %> value="english"  name="language">English
+                <input type="radio" <% if(single.language == "gujrati") { %> checked <% } %> value="gujrati" name="language">Gujrati
+            </td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td><input type="text"  value="<%= single.country %>" name="country"></td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td>
+                <select name="type">
+                    <option value="">---select Type---</option>
+
+                    <%
+                        let type = ["action","drama","thriller"]; 
+                        for(let i in type) {
+                    %>
+                        <option <% if(single.type == type[i]) { %> selected <% } %> value="<%= type[i] %>"><%= type[i] %></option>
+                    <% } %>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>File Upload</td>
+            <td>
+                <input type="file" name="avatar">
+                <% if(single) { %>
+                        <img src="<%= single.avatar %>" width="100"/>
+                <% } %>
+                
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> 
+                <% if(!single) { %>
+                    <input type="submit">
+                <% } else { %>
+                    <input type="submit" value="Edit">
+                <% } %>
+            </td>
+        </tr>
+    </table>
+</form><br><br>
+
+
+
+<table border="1" style="margin: auto; background-color: black; color: aliceblue;">
+    <tr>
+        <td>Id</td>
+        <td>Movie-Name</td>
+        <td>Director</td>
+        <td>Writer</td>
+        <td>Actors</td>
+        <td>Language</td>
+        <td>Country</td>
+        <td>Type</td>
+        <td>Image</td>
+        <td>Action</td>
+    </tr>
+   
+    <% user.map((val,i)=>{ 
+            const {id,name,director,writer,actors,language,country,type,avatar} = val;
+            i++;
+        %>
+        <tr>
+            <td><%= i %></td>
+            <td><%= name %></td>
+            <td><%= director %></td>
+            <td><%= writer %></td>
+            <td><%= actors %></td>
+            <td><%= language %></td>
+            <td><%= country %></td>
+            <td><%= type %></td>
+            <td>
+                <img src="<%= avatar  %>" width="100"/>
+            </td>
+            <td>
+                <a href="/deleteData?id=<%= id %>">Delete</a> ||
+                <a href="/editData?id=<%= id %>">Edit</a>
+            </td>
+        </tr>
+    <% }) %>
+</table>
